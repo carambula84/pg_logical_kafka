@@ -1,5 +1,13 @@
 Just a test for fetching postgres logical replication data, 
 and push it to kafka. 
+Not anything close to production ready!
+
+This is a testing for forwarding pglogical messages to kafka fast.
+Messages are not serialized here, and pushed as it is.
+Only if message is too large, it is split and sent to kafka in pieces.
+PGLOGICAL_QUERY_INTERVALS_MILLISEC <- vary query interval to fetch from logical replication slot.
+To small interval will result in message duplication in subsequent chunks if there are a lot 
+of operations happening at the same time (i.e. bulk updates/insrts/deletes)
 
 Docs for go-kafka package:
 https://github.com/confluentinc/confluent-kafka-go
@@ -28,3 +36,10 @@ and reload the server configuration.
 
 You also need to set wal_level=logical and max_wal_senders, max_replication_slots to value greater than zero in postgresql.conf
 (these changes require a server restart). Create a database psycopg2_test.
+
+in order to launch:
+modify constants in main.go (connection args), then
+$$ go run mail.go test  
+(test - kafka chanel)
+
+

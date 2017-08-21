@@ -12,12 +12,13 @@ import (
 )
 
 const (
-	postgresConstring        = "host=127.0.0.1 user=testuser password=example dbname=vadym sslmode=disable"
-	PglogicalReplicationSlot = "test_replication"
-	KAFKA_BROKER             = "localhost:9092"
-	DEFAULT_KAFKA_TOPIC      = "test"
-	MAX_KAFKA_MESSAGE_SIZE   = 1100000
-	MAX_KAFKA_MESSAGES       = 5000
+	postgresConstring                  = "host=127.0.0.1 user=testuser password=example dbname=vadym sslmode=disable"
+	PglogicalReplicationSlot           = "test_replication"
+	PGLOGICAL_QUERY_INTERVALS_MILLISEC = 500
+	KAFKA_BROKER                       = "localhost:9092"
+	DEFAULT_KAFKA_TOPIC                = "test"
+	MAX_KAFKA_MESSAGE_SIZE             = 1100000
+	MAX_KAFKA_MESSAGES                 = 5000
 )
 
 type inStream interface {
@@ -27,19 +28,12 @@ type inStream interface {
 
 // LDdata for full serialisation of postgres logical decoding messages:
 type LDdata struct {
-	Change []struct {
-		Kind         string        `json:"kind"`
-		Schema       string        `json:"schema"`
-		Table        string        `json:"table"`
-		Columnnames  []string      `json:"columnnames"`
-		Columntypes  []string      `json:"columntypes"`
-		Columnvalues []interface{} `json:"columnvalues"`
-	} `json:"change"`
+	Change []interface{}
 }
 
 func main() {
 	// initialise logical replication connection
-	LRDpostgres := models.FactoryPGLogicalInputStream(postgresConstring, PglogicalReplicationSlot, 5000)
+	LRDpostgres := models.FactoryPGLogicalInputStream(postgresConstring, PglogicalReplicationSlot, PGLOGICAL_QUERY_INTERVALS_MILLISEC)
 	defer LRDpostgres.GracefullyClose()
 	// chanel of logical replication data
 	inp := LRDpostgres.GetChannelInputStream()
