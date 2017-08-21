@@ -16,6 +16,8 @@ https://kafka.apache.org/quickstart
 postgres wal2json docs:
 https://www.postgresql.org/docs/9.4/static/logicaldecoding-example.html
 
+https://github.com/eulerto/wal2json
+
 
 Docs for go-kafka package:
 https://github.com/confluentinc/confluent-kafka-go
