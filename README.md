@@ -10,6 +10,13 @@ PGLOGICAL_QUERY_INTERVALS_MILLISEC can be used to control query interval to fetc
 To small interval will result in message duplication in subsequent chunks if there are a lot 
 of operations happening at the same time (i.e. bulk updates/insrts/deletes)
 
+kafka docs:
+https://kafka.apache.org/quickstart
+
+postgres wal2json docs:
+https://www.postgresql.org/docs/9.4/static/logicaldecoding-example.html
+
+
 Docs for go-kafka package:
 https://github.com/confluentinc/confluent-kafka-go
 
@@ -44,5 +51,4 @@ modify constants in main.go (connection args), then
 $$ go run mail.go test  
 
 (test - kafka chanel)
-
 
