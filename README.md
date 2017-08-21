@@ -5,7 +5,8 @@ Not anything close to production ready!
 This is a testing for forwarding pglogical messages to kafka fast.
 Messages are not serialized here, and pushed as it is.
 Only if message is too large, it is split and sent to kafka in pieces.
-PGLOGICAL_QUERY_INTERVALS_MILLISEC <- vary query interval to fetch from logical replication slot.
+
+PGLOGICAL_QUERY_INTERVALS_MILLISEC can be used to control query interval to fetch from logical replication slot.
 To small interval will result in message duplication in subsequent chunks if there are a lot 
 of operations happening at the same time (i.e. bulk updates/insrts/deletes)
 
@@ -39,7 +40,9 @@ You also need to set wal_level=logical and max_wal_senders, max_replication_slot
 
 in order to launch:
 modify constants in main.go (connection args), then
+
 $$ go run mail.go test  
+
 (test - kafka chanel)
 
 
